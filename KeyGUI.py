@@ -2,6 +2,17 @@ import ntcore
 from pynput import keyboard
 import pygetwindow
 import threading
+import customtkinter
+
+class ApplicationGUI:
+    def __init__(self):
+        super().__init__()
+
+        self.title("minimal example app")
+        self.minsize(400, 300)
+
+        self.button = customtkinter.CTkButton(master=self, command=self.button_callback)
+        self.button.pack(padx=20, pady=20)
 
 class Example:
 
@@ -72,30 +83,13 @@ class Example:
         with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
             listener.join()
 
-            ###self.dblPub.set(2.0, 0)  # 0 = use current time
-
-            # publish a value with a specific timestamp with microsecond resolution.
-            # On the roboRIO, this is the same as the FPGA timestamp (e.g.
-            # RobotController.getFPGATime())
-            ###self.dblPub.set(3.0, ntcore._now())
-
-    # often not required in robot code, unless this class doesn't exist for
-    # the lifetime of the entire robot program, in which case close() needs to be
-    # called to stop publishing
-    ###def close(self):
-        # stop publishing
-        ###dblPub.close()
-
 if __name__ == "__main__":
     inst = ntcore.NetworkTableInstance.getDefault()
     table = inst.getTable("datatable")
-    ###xSub = table.getDoubleTopic("GridTarget").subscribe(0)
-    ###ySub = table.getDoubleTopic("y").subscribe(0)# start publishing; the return value must be retained (in this case, via
        
     inst.startClient4("example client")
-    inst.setServerTeam(233) # where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
-    inst.startDSClient() # recommended if running on DS computer; this gets the robot IP from the DS
-     # an instance variable)
+    inst.setServerTeam(233)
+    inst.startDSClient()
 
 
     # get a topic from a NetworkTableInstance
@@ -107,3 +101,6 @@ if __name__ == "__main__":
     ###dblPub = dblTopic.publish()
     myExample = Example(dblTopic=dblTopic)
     myExample.periodic()
+    
+    app = ApplicationGUI()
+    app.mainloop()

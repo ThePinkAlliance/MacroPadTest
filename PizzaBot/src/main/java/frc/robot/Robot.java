@@ -9,6 +9,7 @@ import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private GridSubscriber m_gridSubscriber;
+  private TBtoBB m_tbtobb;
 
   private RobotContainer m_robotContainer;
 
@@ -40,7 +42,7 @@ public class Robot extends TimedRobot {
     DoubleTopic dblTopic = inst.getDoubleTopic("/datatable/CUI");
     m_gridSubscriber = new GridSubscriber(dblTopic);
     m_robotContainer = new RobotContainer();
-    
+    m_tbtobb = new TBtoBB();
   }
 
   /**
@@ -62,13 +64,14 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    m_gridSubscriber.dashBoardGridder();
+    //m_gridSubscriber.dashBoardGridder();
+    m_tbtobb.putStuff();
   }
 
   @Override
   public void disabledPeriodic() {
-    
-    m_gridSubscriber.periodic();
+    //m_gridSubscriber.periodic();
+    m_tbtobb.periodic();
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
