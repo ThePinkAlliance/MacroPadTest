@@ -1,14 +1,18 @@
-import pyvjoy
-from pynput import keyboard
+import pyvjoy # for vitual joysticks
+from pynput import keyboard # for keyboard capture
 
-j = pyvjoy.VJoyDevice(1)
+# set the virtual joystick we will emulating inputs on to be vjoy #3
+j = pyvjoy.VJoyDevice(3)
 
+# function to reset all previously on inputs to off
 def resetOnStart():
     j.reset_buttons()
 
+# when any key is pressed
 def on_press(key):
     try:
-        #keys (including numlock failsafe)
+        print(key)
+        # keypad to vjoy emulation (including numlock failsafe)
         if str(key) == '<96>' or str(key) == 'Key.insert':
             #--num0--
             j.reset_buttons()
@@ -63,19 +67,22 @@ def on_press(key):
             j.set_button(9,1)
             print("vjoy button 9 pressed")
 
-        if str(key) == '<105>' or str(key) == 'key.page_up':
+        if str(key) == '<105>' or str(key) == 'Key.page_up':
             #--num9--
             j.reset_buttons()
             j.set_button(10,1)
             print("vjoy button 10 pressed")
     
+    # notify when a key not recognized by python is pressed
     except AttributeError:
         print('special key {0} pressed'.format(key))
 
+# failsafe, stops listener when esc key is pressed
 def on_release(key):
     if key == keyboard.Key.esc:
         return False
 
 resetOnStart()
+# initiate listener
 with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
     listener.join()
