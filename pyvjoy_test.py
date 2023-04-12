@@ -11,6 +11,7 @@ def resetOnStart():
 # when any key is pressed
 def on_press(key):
     try:
+        key = str(key).replace("'", "")
         print(key)
         # keypad to vjoy emulation (including numlock failsafe)
         if str(key) == '<96>' or str(key) == 'Key.insert':
