@@ -35,4 +35,6 @@ if str(key) == '<key id>':
             j.set_button(<your vjoy button>, <on(1) or off(0)>)
 ```
 
-This project uses VGamePad for joystick emulation. View its documentation in their [repository](https://github.com/tidzo/pyvjoy/blob/master/README)
+---
+
+This project uses VGamePad for joystick emulation. View its documentation in their [repository](https://github.com/yannbouteiller/vgamepad)
